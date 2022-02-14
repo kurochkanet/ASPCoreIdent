@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ASPCoreIdent.Models.Category.CategoryVM>
+@{
+    ViewBag.Title = "Index";
+}
+
+<br>
+<br>
+<br>
+<h2 style="text-align:center;color:darkcyan ">List of categories</h2>
+<br>
+<table class="table" width="100%" cellspacing="0" cellpadding="4">
+    <tr>
+        <th class="border-top-0">
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        @using (Html.BeginForm("Index", "Categories", new { id = item.Id }))
+        {
+            <tr>
+                <td width="800" class="border-dark" style="background-color:aquamarine; border:1px solid">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="border-dark" style="background-color: aquamarine; border: 1px solid; text-align: center">
+                    <input type="button"
+                           class="btn btn-secondary"
+                           value="Edit"
+                           onclick="@("window.location.href='" + @Url.Action("EditCategory", "Categories",new { id = item.Id }) + "'");" />
+                </td>
+                <td class="border-dark" style="background-color: aquamarine; border: 1px solid; text-align: center">
+                    <input type="submit" class="delete-button btn btn-secondary" data-category-id="@item.Id" value="Delete" />
+                </td>
+            </tr>
+        }
+    }
+</table>
+<br>
+<input type="button"
+       class="btn btn-warning"
+       value="Add Category"
+       onclick="@("window.location.href='" + @Url.Action("CreateCategory", "Categories") + "'");" />
+
+<script>
+    //function deleteFunction() { }
+    $(document).ready(function ()
+    {
+        $(".delete-button").click(function () {
+            var id = $(this).data("category-id");
+
+            $.ajax({
+                url: '/Categories/Delete/'+id,
+                type: 'DELETE',
+                success: function (result) {
+                    alert("This product deleted successfully!");
+                    window.location.href = '@Url.Action("Index", "Categories")';                 
+                },
+                error: function (error)
+                {
+                    var str = "This product can not be deleted!\r\nDetails:\r\n" + error;
+                    alert(str);
+                }
+            });
+            
+        })
+    });
+</script>

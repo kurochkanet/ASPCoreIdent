@@ -1,0 +1,96 @@
+﻿@model ASPCoreIdent.Models.Good.GoodVM
+@{
+    ViewBag.Title = "EditGood";
+}
+<br>
+<br>
+<br>
+<h2>Edit goods</h2>
+<br>
+
+@using (Html.BeginForm(FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <fieldset>
+
+        <div class="form-horizontal">
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2", @style = "font-weight:700;" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Name)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2", @style = "font-weight:700;" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Price)
+                    @Html.ValidationMessageFor(model => model.Price)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Descr, htmlAttributes: new { @class = "control-label col-md-2", @style = "font-weight:700;" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Descr)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label col-md-2", @style = "font-weight:700;" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Qty)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2", @style = "font-weight:700;" })
+                <div class="col-md-10">
+                    <img src="~/@Model.PhotoThumbFileName" alt="No photo" style="object-fit: cover;">
+
+                    @Html.HiddenFor(model => model.Photo)
+
+                    <input type="file" name="Photo"  />
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <table>
+                    <tr>
+                        @Html.LabelFor(model => model.Reserve, htmlAttributes: new { @class = "control-label col-md-2", @style = "font-weight:700;" })
+                    </tr>
+                    <tr>
+                        @Html.EditorFor(model => model.Reserve)
+                    </tr>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <table>
+                    <tr>
+                        @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2", @style = "font-weight:700;" })
+                    </tr>
+                    <tr>
+                        @Html.DropDownListFor(m => m.CategoryId, ViewBag.CategoryList as SelectList)
+                    </tr>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-primary" value="Save changes" />
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to the List", "Index")
+</div>
+
+

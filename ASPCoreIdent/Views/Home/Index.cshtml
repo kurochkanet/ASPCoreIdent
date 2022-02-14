@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ASPCoreIdent.Models.Good.GoodVM>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>@User.Identity.Name</p>
+
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <input type="submit" value="Logout" />
+    </form>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login">Login</a>
+    <a asp-controller="Account" asp-action="Register">Register</a>
+}
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    @foreach (var item in Model)
+    {
+        <div class="col-4 mb-5">
+            <div class="card h-100">
+                <img class="card-img-top" src="@item.PhotoFileName" alt="There should be a picture here!" />
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    <p class="card-text" style="text-align:justify">@item.Descr</p>
+                </div>
+                <div>
+                    <p style="margin-bottom:0rem;"><b style="color:Highlight">Price:</b> <b>@item.Price</b><b style="color:Highlight"> UAH</b></p>
+                    <p><b style="color:Highlight">Qty:</b> @item.Qty</p>
+                </div>
+                <div>
+                    <div class="d-grid gap-2 d-md-block">
+                        <button class="btn btn-info" type="button">Details</button>
+                        <button class="btn btn-outline-info" type="button" onclick="@("window.location.href='" + @Url.Action("EditGood", "Goods",new { id = item.Id }) + "'");">Edit</button>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    }
+</div>
