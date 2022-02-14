@@ -1,4 +1,5 @@
 using DAL;
+using DAL.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,9 @@ namespace ASPCoreIdent
                 var services = scope.ServiceProvider;
                 try
                 {
+                    var dbInitalizer = services.GetService<DBInitalizer>();
+                    dbInitalizer.Seed();
+
                     var userManager = services.GetRequiredService<UserManager<User>>();
                     var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
                     await RoleInitializer.InitializeAsync(userManager, rolesManager);

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class ApplicationContext : IdentityDbContext<User>
-    {
-        public ApplicationContext(DbContextOptions<ApplicationContext> options)
-            : base(options)
-        {
-            Database.EnsureCreated();
-        }
-    }
+    //public class ApplicationContext : IdentityDbContext<User>
+    //{
+    //    public ApplicationContext(DbContextOptions<ApplicationContext> options)
+    //        : base(options)
+    //    {
+    //        Database.EnsureCreated();
+    //    }
+    //}
 }

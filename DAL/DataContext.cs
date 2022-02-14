@@ -1,4 +1,6 @@
 ﻿using DAL.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-   public class DataContext : DbContext
+   public class DataContext : IdentityDbContext<User>
     {
         public DbSet<Good> Goods { get; set; }
         public DbSet<Category> Categories { get; set; }
@@ -17,6 +19,17 @@ namespace DAL
             : base(options)
         {
            // Database.EnsureCreated();
+           
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>().ToTable("Users");
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("Logins");
+            //modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            //modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            
         }
     }
 }

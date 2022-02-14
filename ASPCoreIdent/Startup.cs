@@ -3,7 +3,6 @@ using BLL;
 using BLL.Utils;
 using Contracts.Business;
 using Contracts.Repositories;
-
 using DAL.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,9 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-
 using AutoMapper;
-
 using Microsoft.AspNetCore.HttpsPolicy;
 using DAL;
 
@@ -34,21 +31,20 @@ namespace ASPCoreIdent
         public void ConfigureServices(IServiceCollection services)
         {
             //ApplicationContext
-            services.AddDbContext<ApplicationContext>(options =>
+            services.AddDbContext<DataContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<User, IdentityRole>(opts => {
-                opts.User.RequireUniqueEmail = true;    // ?????????? email
+                opts.User.RequireUniqueEmail = true;    // email
             })
-            .AddEntityFrameworkStores<ApplicationContext>();
+            .AddEntityFrameworkStores<DataContext>();
 
             services.AddControllersWithViews();
 
-
-            ////DBContext
-            services.AddDbContext<DataContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-             );
+            //////DBContext
+            //services.AddDbContext<DataContext>(options =>
+            //   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            // );
             services.AddScoped<DBInitalizer, DBInitalizer>();
             //models mapping
             services.AddAutoMapper(new Type[] { typeof(DalMapper), typeof(ViewMapper) });
@@ -57,12 +53,10 @@ namespace ASPCoreIdent
             services.AddScoped<IGoodsRepository, GoodsRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             
-
             //services
             services.AddScoped<IGoodsService, GoodService>();
             services.AddScoped<ICategoryService, CategoryService>();
             
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
