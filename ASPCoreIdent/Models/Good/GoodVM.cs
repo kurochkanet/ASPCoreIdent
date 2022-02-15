@@ -1,4 +1,5 @@
 ﻿using BLL.Utils;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -53,5 +54,7 @@ namespace ASPCoreIdent.Models.Good
         [Required]
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
+
+      //  public IEnumerable<SelectListItem> CategoryList { get; set; }
     }
 }

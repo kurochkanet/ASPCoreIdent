@@ -18,13 +18,13 @@ namespace ASPCoreIdent.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IMapper _mapper;
-        private readonly CategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
 
         public CategoriesController(ICategoryService categoryService, ILogger<HomeController> logger, IMapper mapper)
         {
             _logger = logger;
             _mapper = mapper;
-            _categoryService = (CategoryService)categoryService;
+            _categoryService = categoryService;
         }
 
 
