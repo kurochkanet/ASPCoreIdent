@@ -2,20 +2,11 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-
-@if (User.Identity.IsAuthenticated)
-{
-    <p>@User.Identity.Name</p>
-
-    <form method="post" asp-controller="Account" asp-action="Logout">
-        <input type="submit" value="Logout" />
-    </form>
-}
-else
-{
-    <a asp-controller="Account" asp-action="Login">Login</a>
-    <a asp-controller="Account" asp-action="Register">Register</a>
-}
+<br />
+<br />
+<br />
+<br />
+<h2 class="text-primary mb-5">HOME BLYA BUDU</h2>
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     @foreach (var item in Model)

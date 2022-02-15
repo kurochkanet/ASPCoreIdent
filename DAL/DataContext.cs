@@ -27,9 +27,10 @@ namespace DAL
             modelBuilder.Entity<User>().ToTable("Users");
             modelBuilder.Entity<IdentityRole>().ToTable("Roles");
             modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("Logins");
-            //modelBuilder.Entity<IdentityRole>().ToTable("Roles");
-            //modelBuilder.Entity<IdentityRole>().ToTable("Roles");
-            
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
         }
     }
 }
