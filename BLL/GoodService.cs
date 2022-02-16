@@ -50,9 +50,7 @@ namespace BLL
                 //image.Quality = 10; // This is the Compression level.
                 image.Write(thumbNewPath);
             }
-            //image = new Bitmap(thumbPath);
-            //Image imageThumbnail = image.GetThumbnailImage(thumbWidth, thumbHeight, null, new IntPtr());
-            //imageThumbnail.Save(thumbNewPath);
+         
         }
 
         public void CreateGood(GoodDTO createGoodDto, IFormFile formFile)
@@ -126,14 +124,16 @@ namespace BLL
             var fileDelete = good.Photo;
             var fileFolder = ContentPathBuilder.GetGoodImageFolderPath();
             var fileThumbnailsFolder = ContentPathBuilder.GetGoodThumbnailsImageFolderPath();
-            var fileThumbnailsDelete = Path.Combine(fileThumbnailsFolder, fileDelete);
-            fileDelete = Path.Combine(fileFolder, fileDelete);
-            if (File.Exists(fileDelete))
-                File.Delete(fileDelete);
-            //Thumbnails                
-            if (File.Exists(fileThumbnailsDelete))
-                File.Delete(fileThumbnailsDelete);
-
+            if (!string.IsNullOrWhiteSpace(good.Photo))
+            {
+                var fileThumbnailsDelete = Path.Combine(fileThumbnailsFolder, fileDelete);
+                fileDelete = Path.Combine(fileFolder, fileDelete);
+                if (File.Exists(fileDelete))
+                    File.Delete(fileDelete);
+                //Thumbnails                
+                if (File.Exists(fileThumbnailsDelete))
+                    File.Delete(fileThumbnailsDelete);
+            }
             _repository.Delete(id);
         }
     }
