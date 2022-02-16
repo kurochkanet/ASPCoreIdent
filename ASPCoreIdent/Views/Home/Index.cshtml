@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ASPCoreIdent.Models.Good.GoodVM>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = "Index";
 }
 <br />
 <br />
@@ -13,7 +13,7 @@
     {
         <div class="col-4 mb-5">
             <div class="card h-100">
-                <img class="card-img-top" src="@item.PhotoFileName" alt="There should be a picture here!" />
+                <img class="card-img-top" src="@item.PhotoURL" alt="There should be a picture here!" />
                 <div class="card-body">
                     <h5 class="card-title">@item.Name</h5>
                     <p class="card-text" style="text-align:justify">@item.Descr</p>
@@ -25,7 +25,10 @@
                 <div>
                     <div class="d-grid gap-2 d-md-block">
                         <button class="btn btn-info" type="button">Details</button>
-                        <button class="btn btn-outline-info" type="button" onclick="@("window.location.href='" + @Url.Action("EditGood", "Goods",new { id = item.Id }) + "'");">Edit</button>
+                        @if(User.IsInRole("admin"))
+                        {
+                            <button class="btn btn-outline-info" type="button" onclick="@("window.location.href='" + @Url.Action("EditGood", "Goods",new { id = item.Id }) + "'");">Edit</button>
+                        }
                     </div>
                     <br>
                 </div>

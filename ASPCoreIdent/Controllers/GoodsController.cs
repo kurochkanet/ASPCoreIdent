@@ -27,7 +27,7 @@ namespace ASPCoreIdent.Controllers
         private readonly IGoodsService _goodsServise;
         private readonly ICategoryService _categoryService;
 
-        private DataContext _context;
+        //rivate DataContext _context;
 
         public GoodsController(IGoodsService goodsServise, ICategoryService categoryService, ILogger<HomeController> logger, IMapper mapper)
         {
@@ -57,7 +57,7 @@ namespace ASPCoreIdent.Controllers
         {
             if (!ModelState.IsValid)
             {
-               // good.CategoryList = new SelectList(_context.Categories, "Id", "Name");
+            
                 return View(good);
             }
             try

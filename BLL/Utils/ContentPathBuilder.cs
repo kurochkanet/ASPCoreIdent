@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Utils
 {
-   public class ContentPathBuilder
+   public static class ContentPathBuilder
     {
         public static string ContentRootPath { get; set; }
         public static string ContentGoodsFolder { get; set; }
@@ -18,7 +18,7 @@ namespace BLL.Utils
         {
             return Path.Combine(ContentRootPath, ContentWebFolder, ContentGoodsFolder);
         }
-        public static string GetGoodThumbNailsImageFolderPath()
+        public static string GetGoodThumbnailsImageFolderPath()
         {
             return Path.Combine(ContentRootPath, ContentWebFolder, ContentThumbnailsFolder);
         }

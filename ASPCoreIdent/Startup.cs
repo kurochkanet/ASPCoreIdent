@@ -41,10 +41,6 @@ namespace ASPCoreIdent
 
             services.AddControllersWithViews();
 
-            //////DBContext
-            //services.AddDbContext<DataContext>(options =>
-            //   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
-            // );
             services.AddScoped<DBInitalizer, DBInitalizer>();
             //models mapping
             services.AddAutoMapper(new Type[] { typeof(DalMapper), typeof(ViewMapper) });
@@ -62,6 +58,7 @@ namespace ASPCoreIdent
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            InitFileEnviroments(env);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

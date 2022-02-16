@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 namespace ASPCoreIdent
 {
     public class Program
+
     {
         //public static void Main(string[] args)
         //{

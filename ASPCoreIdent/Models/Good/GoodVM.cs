@@ -22,7 +22,7 @@ namespace ASPCoreIdent.Models.Good
         public string Descr { get; set; }
 
         private string _photo;
-        public string PhotoFileName
+        public string PhotoURL
         {
             get
             {
@@ -39,7 +39,7 @@ namespace ASPCoreIdent.Models.Good
             set { _photo = value; }
         }
 
-        public string PhotoThumbFileName
+        public string PhotoThumbURL
         {
             get
             {
@@ -55,6 +55,6 @@ namespace ASPCoreIdent.Models.Good
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
 
-      //  public IEnumerable<SelectListItem> CategoryList { get; set; }
+        //public IEnumerable<SelectListItem> CategoryList { get; set; }
     }
 }

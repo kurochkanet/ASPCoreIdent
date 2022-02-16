@@ -3,6 +3,7 @@ using BLL.Utils;
 using Contracts.Business;
 using Contracts.Repositories;
 using DTO;
+using ImageMagick;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace BLL
     {
         private IGoodsRepository _repository;
         private IMapper _mapper;
-        private Bitmap image;
+        //private Bitmap image;
 
         public GoodService(IGoodsRepository repository, IMapper mapper)
         {
@@ -42,29 +43,28 @@ namespace BLL
 
         public void GenerateThumbnail(string thumbPath, int thumbWidth, int thumbHeight, string thumbNewPath)
         {
-            image = new Bitmap(thumbPath);
-            Image imageThumbnail = image.GetThumbnailImage(thumbWidth, thumbHeight, null, new IntPtr());
-            imageThumbnail.Save(thumbNewPath);
+            using (MagickImage image = new MagickImage(thumbPath))
+            {
+                image.Format = image.Format; // Get or Set the format of the image.
+                image.Resize(thumbWidth, thumbHeight); // fit the image into the requested width and height. 
+                //image.Quality = 10; // This is the Compression level.
+                image.Write(thumbNewPath);
+            }
+            //image = new Bitmap(thumbPath);
+            //Image imageThumbnail = image.GetThumbnailImage(thumbWidth, thumbHeight, null, new IntPtr());
+            //imageThumbnail.Save(thumbNewPath);
         }
 
         public void CreateGood(GoodDTO createGoodDto, IFormFile formFile)
         {
             if (formFile != null)
             {
-                var fileFolder = ContentPathBuilder.GetGoodImageFolderPath();
-                var fileName = Guid.NewGuid().ToString();// ECA34DB2-C885-4277-86DC-287BCEE00FAD
-                string extension = System.IO.Path.GetExtension(formFile.FileName);
-                fileName = $"{fileName}{extension}";
-                var filePath = Path.Combine(fileFolder, fileName);
-
-                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    formFile.CopyToAsync(fileStream).Wait();
-                }
+                string fileName, filePath;
+                SaveProductImage(formFile, out fileName, out filePath);
                 createGoodDto.Photo = fileName;
 
                 //Thumbnails
-                var fileThumbnailsFolder = ContentPathBuilder.GetGoodThumbNailsImageFolderPath();
+                var fileThumbnailsFolder = ContentPathBuilder.GetGoodThumbnailsImageFolderPath();
                 var fileThumbnailsPath = Path.Combine(fileThumbnailsFolder, fileName);
                 int thumbWidth = 100;
                 int thumbHeight = 100;
@@ -73,31 +73,41 @@ namespace BLL
             _repository.Create(createGoodDto);
         }
 
+        private static void SaveProductImage(IFormFile formFile, out string fileName, out string filePath)
+        {
+            var fileFolder = ContentPathBuilder.GetGoodImageFolderPath();
+            fileName = Guid.NewGuid().ToString();
+            string extension = System.IO.Path.GetExtension(formFile.FileName);
+            fileName = $"{fileName}{extension}";
+            filePath = Path.Combine(fileFolder, fileName);
+
+            using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                formFile.CopyToAsync(fileStream).Wait();
+            }
+        }
+
         public void EditGood(GoodDTO editGoodDto, IFormFile formFile)
         {
             if (formFile != null)
             {
-                var fileDelete = editGoodDto.Photo;
+                var fileThumbnailsFolder = ContentPathBuilder.GetGoodThumbnailsImageFolderPath();
                 var fileFolder = ContentPathBuilder.GetGoodImageFolderPath();
-                var fileThumbnailsFolder = ContentPathBuilder.GetGoodThumbNailsImageFolderPath();
-                var fileThumbnailsDelete = Path.Combine(fileThumbnailsFolder, fileDelete);
-                fileDelete = Path.Combine(fileFolder, fileDelete);
-                if (File.Exists(fileDelete))
-                    File.Delete(fileDelete);
-
-                //Thumbnails                
-                if (File.Exists(fileThumbnailsDelete))
-                    File.Delete(fileThumbnailsDelete);
-
-                var fileName = Guid.NewGuid().ToString();// ECA34DB2-C885-4277-86DC-287BCEE00FAD
-                string extension = System.IO.Path.GetExtension(formFile.FileName);
-                fileName = $"{fileName}{extension}";
-                var filePath = Path.Combine(fileFolder, fileName);
-
-                using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                if (!string.IsNullOrWhiteSpace(editGoodDto.Photo))
                 {
-                    formFile.CopyToAsync(fileStream).Wait();
+                    var fileDelete = editGoodDto.Photo;
+                    var fileThumbnailsDelete = Path.Combine(fileThumbnailsFolder, fileDelete);
+                    fileDelete = Path.Combine(fileFolder, fileDelete);
+                    if (File.Exists(fileDelete))
+                        File.Delete(fileDelete);
+
+                    //Thumbnails                
+                    if (File.Exists(fileThumbnailsDelete))
+                        File.Delete(fileThumbnailsDelete);
                 }
+
+                string fileName, filePath;
+                SaveProductImage(formFile, out fileName, out filePath);
                 editGoodDto.Photo = fileName;
 
                 //Thumbnails                
@@ -115,7 +125,7 @@ namespace BLL
             var good = GoodByID(id);
             var fileDelete = good.Photo;
             var fileFolder = ContentPathBuilder.GetGoodImageFolderPath();
-            var fileThumbnailsFolder = ContentPathBuilder.GetGoodThumbNailsImageFolderPath();
+            var fileThumbnailsFolder = ContentPathBuilder.GetGoodThumbnailsImageFolderPath();
             var fileThumbnailsDelete = Path.Combine(fileThumbnailsFolder, fileDelete);
             fileDelete = Path.Combine(fileFolder, fileDelete);
             if (File.Exists(fileDelete))
