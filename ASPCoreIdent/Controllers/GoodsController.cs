@@ -17,9 +17,11 @@ using System.Threading.Tasks;
 using ASPCoreIdent.Models;
 using ASPCoreIdent.Models.Good;
 using ASPCoreIdent.Controllers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASPCoreIdent.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class GoodsController : Controller
     {
         private readonly ILogger<HomeController> _logger;

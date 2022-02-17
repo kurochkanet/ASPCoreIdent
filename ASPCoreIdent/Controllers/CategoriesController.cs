@@ -11,9 +11,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using ASPCoreIdent.Models.Category;
 using BLL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASPCoreIdent.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class CategoriesController : Controller
     {
         private readonly ILogger<HomeController> _logger;

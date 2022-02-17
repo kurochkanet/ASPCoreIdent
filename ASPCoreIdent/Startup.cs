@@ -36,6 +36,7 @@ namespace ASPCoreIdent
 
             services.AddIdentity<User, IdentityRole>(opts => {
                 opts.User.RequireUniqueEmail = true;    // email
+                opts.Password.RequiredLength = 5;
             })
             .AddEntityFrameworkStores<DataContext>();
 
