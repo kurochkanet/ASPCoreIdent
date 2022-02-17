@@ -28,7 +28,7 @@ namespace ASPCoreIdent.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { Email = model.Email, UserName = model.Email, Year = model.Year };
+                User user = new User { Email = model.Email, UserName = model.Email, Year = model.Year, Phone = model.Phone };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -52,7 +52,7 @@ namespace ASPCoreIdent.Controllers
             {
                 return NotFound();
             }
-            EditUserVM model = new EditUserVM { Id = user.Id, Email = user.Email, Year = user.Year };
+            EditUserVM model = new EditUserVM { Id = user.Id, Email = user.Email, Year = user.Year, Phone = user.Phone };
             return View(model);
         }
 
@@ -67,6 +67,7 @@ namespace ASPCoreIdent.Controllers
                     user.Email = model.Email;
                     user.UserName = model.Email;
                     user.Year = model.Year;
+                    user.Phone = model.Phone;
 
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
