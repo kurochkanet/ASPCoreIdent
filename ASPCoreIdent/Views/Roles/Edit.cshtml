@@ -1,8 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @model ASPCoreIdent.Models.Role.ChangeRoleVM
 
+    <br />
+    <br />
+    <br />
 <h2>Edit roles for user @Model.UserEmail</h2>
-
+<br />
 <form asp-action="Edit" method="post">
     <input type="hidden" name="userId" value="@Model.UserId" />
     <div class="form-group">
@@ -14,3 +17,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
+<br />
+<div>
+    @Html.ActionLink("Back to User list", "UserList")
+</div>

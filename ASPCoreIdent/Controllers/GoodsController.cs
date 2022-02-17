@@ -29,7 +29,7 @@ namespace ASPCoreIdent.Controllers
         private readonly IGoodsService _goodsServise;
         private readonly ICategoryService _categoryService;
 
-        //rivate DataContext _context;
+        //private DataContext _context;
 
         public GoodsController(IGoodsService goodsServise, ICategoryService categoryService, ILogger<HomeController> logger, IMapper mapper)
         {

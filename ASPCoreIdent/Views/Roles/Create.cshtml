@@ -1,7 +1,10 @@
 ﻿@model string
 
 <div asp-validation-summary="All" class="text-danger"></div>
-
+<br />
+<br />
+<br />
+<br />
 <form asp-action="Create" method="post">
     <div class="form-group">
         <label for="name">New role</label>
@@ -9,3 +12,8 @@
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
+<br />
+<br />
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

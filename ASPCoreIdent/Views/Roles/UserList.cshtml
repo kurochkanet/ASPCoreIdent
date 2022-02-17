@@ -1,6 +1,10 @@
 ﻿@model IEnumerable<DAL.User>
  
+<br />
+<br />
+<br />
 <h2>List of users</h2>
+<br />
 <table class="table">
     @foreach (var user in Model)
     {
@@ -12,3 +16,7 @@
         </tr>
     }
 </table>
+<br />
+<div>
+    @Html.ActionLink("Back to List of roles", "Index")
+</div>

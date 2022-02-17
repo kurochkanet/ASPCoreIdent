@@ -34,6 +34,7 @@ namespace ASPCoreIdent.Controllers
                 {
                     // установка куки
                     await _signInManager.SignInAsync(user, false);
+                    await _userManager.AddToRoleAsync(user,"customer");
                     return RedirectToAction("Index", "Home");
                 }
                 else
